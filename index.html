@@ -82,6 +82,7 @@ main {
         </section>
 
         <section id="services">
+<h2>服务</h2>
             <p>联系我们了解详细的服务_(:з」∠)_</p>
         </section>
 
@@ -95,8 +96,26 @@ main {
 
     <footer>
         <p>&copy; 2025 晓晓出品</p>
+    </footer>
+    <script src="
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+
+// 表单提交处理
+document.querySelector('form').addEventListener('submit', function(event){
+    event.preventDefault();
+    alert("感谢您的反馈！");
+});
+"></script>
 </body>
 </html>
-v.1.03
+v.1.14
 
 
