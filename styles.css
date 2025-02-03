@@ -9,7 +9,11 @@
     --rainbow-6: #5F27CD;  
     --gradient-angle: 135deg;
 }
-
+    header {
+    background-color: #f4f4f4;
+    padding: 1rem;
+    text-align: center;
+     }
 .color-wave {
     position: absolute;
     width: 200%;
