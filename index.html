@@ -6,6 +6,32 @@
     <title>晓晓出品 - 创意设计</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes navScroll {
+            from { background-color: transparent; }
+            to { background-color: var(--primary-color); }
+        }
+
+        .animate-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .animate-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
         :root {
             --primary-color: #FFD700;  
             --secondary-color: #FFFFFF; 
@@ -50,6 +76,21 @@
         nav a:hover {
             color: #FFA500;
         }
+nav {
+            transition: all 0.3s ease;
+            background-color: transparent;
+        }
+
+        nav.scrolled {
+            background-color: var(--primary-color);
+            padding: 0.8rem 5%;
+        }.contact-icon:active {
+            animation: press 0.2s ease;
+        }
+
+        @keyframes press {
+            50% { transform: scale(0.95); }
+        }
 
         section {
             padding: 5rem 8%;
@@ -64,49 +105,28 @@
             text-align: center;
         }
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--secondary-color);
+             overflow: hidden;
         }
 
-        .contact-icons {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
+        .hero h1 span {
+            display: inline-block;
+            animation: slideUp 0.6s ease both;
         }
 
-        .contact-icon {
-            background-color: var(--primary-color);
-            padding: 1.5rem;
-            border-radius: 15px;
-            transition: transform 0.3s;
-            text-align: center;
-        }
-
-        .contact-icon:hover {
-            transform: translateY(-5px);
-        }
-
-        .contact-icon a {
-            color: var(--secondary-color);
-            text-decoration: none;
-            display: block;
-        }
-
-        .contact-icon i {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        @media (max-width: 768px) {
-            nav ul {
-                gap: 1.5rem;
-            }
-            
-            .hero h1 {font-size: 2rem;
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
             }
         }
+        .service-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(255,215,0,0.2);
+    }
     </style>
 </head>
 <body>
@@ -127,11 +147,12 @@
     </section>
 
     <section id="about">
-        <h2>关于我们</h2>
-        <p>我们是一支充满活力的创意团队...</p>
-    </section><section id="services">
-        <h2>我们的服务</h2>
-        <p>提供专业的设计解决方案...</p>
+         <h2 class="animate-scroll">我们的服务</h2>
+        <div class="services-grid">
+            <div class="service-card animate-scroll">
+                <h3>UI/UX设计</h3>
+                <p>专业的用户体验设计方案...</p>
+        </div>
     </section>
 
     <section id="contact">
@@ -164,4 +185,27 @@
         </div>
     </section>
 </body>
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate-scroll').forEach((el) => {
+            observer.observe(el);
+        });
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroText = document.querySelector('.hero h1');
+            heroText.innerHTML = heroText.textContent.split('').map((char, i) =>
+                `<span style="animation-delay: ${i * 0.05}s">${char}</span>`
+            ).join('');
+        });
+    </script>
 </html>
