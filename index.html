@@ -6,172 +6,253 @@
     <title>晓晓出品 - 创意设计</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-         
         :root {
-            --primary-color: #FFD700;  
-            --secondary-color: #FFFFFF; 
+            --primary-color: #FFD700;
+            --secondary-color: #FFFFFF;
         }
-
-        * {
+ * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Arial, sans-serif;
         }
 
-        body 
-        {
-            background-color: var(--secondary-color);
-        
-        }
-* {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Arial, sans-serif;
+        body {
+            background: var(--secondary-color);
+            scroll-behavior: smooth;
         }
 .loader-wrapper {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: white;
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        transition: opacity 0.6s ease;
-}.sun-loader {
-        position: relative;
-        width: 80px;
-        height: 80px;
-    }
-
-    .sun-loader .core {
-        width: 40px;
-        height: 40px;
-        background: #FFD700;
-        border-radius: 50%;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        animation: pulse 1.2s infinite;
-    }
-
-    .sun-loader .ray {
-        width: 8px;
-        height: 24px;
-        background: #FFD700;
-        position: absolute;
-        border-radius: 4px;
-        animation: rotate 4s linear infinite;
-    }
-
-    .sun-loader .ray:nth-child(2) { transform: rotate(45deg); }
-    .sun-loader .ray:nth-child(3) { transform: rotate(90deg); }
-    .sun-loader .ray:nth-child(4) { transform: rotate(135deg); }@keyframes pulse {
-        0% { transform: translate(-50%, -50%) scale(0.8); }
-        50% { transform: translate(-50%, -50%) scale(1.1); }
-        100% { transform: translate(-50%, -50%) scale(0.8); }
-    }
-
-    @keyframes rotate {
-        to { transform: rotate(360deg); }
-        }.text-loader span {
-        font-size: 2rem;
-        color: #FFD700;
-        display: inline-block;
-        animation: bounce 0.6s infinite alternate;
-    }
-
-    .text-loader span:nth-child(2) { animation-delay: 0.1s; }
-    .text-loader span:nth-child(3) { animation-delay: 0.2s; }
-    .text-loader span:nth-child(4) { animation-delay: 0.3s; }
-    .text-loader span:nth-child(5) { animation-delay: 0.4s; }
-    .text-loader span:nth-child(6) { animation-delay: 0.5s; }
-
-    @keyframes bounce {
-        to {
-            transform: translateY(-15px);
-            opacity: 0.5;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: white;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease;
         }
-    }
-nav {
-            transition: all 0.3s ease;
+
+        .sun-loader {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        .sun-loader {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .sun-loader .core {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 1.2s infinite;
+        }
+         .sun-loader .ray {
+            width: 8px;
+            height: 24px;
+            background: var(--primary-color);
+            position: absolute;
+            border-radius: 4px;
+            animation: rotate 4s linear infinite;
+        }
+
+        .sun-loader .ray:nth-child(2) { transform: rotate(45deg); }
+        .sun-loader .ray:nth-child(3) { transform: rotate(90deg); }
+        .sun-loader .ray:nth-child(4) { transform: rotate(135deg); }
+
+        .text-loader span {
+            font-size: 2rem;
+            color: var(--primary-color);
+            display: inline-block;
+            animation: bounce 0.6s infinite alternate;
+        }
+        .text-loader span:nth-child(2) { animation-delay: 0.1s; }
+        .text-loader span:nth-child(3) { animation-delay: 0.2s; }
+        .text-loader span:nth-child(4) { animation-delay: 0.3s; }
+        .text-loader span:nth-child(5) { animation-delay: 0.4s; }
+        .text-loader span:nth-child(6) { animation-delay: 0.5s; }
+        nav {
             background-color: transparent;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
         }
-
         nav.scrolled {
             background-color: var(--primary-color);
             padding: 0.8rem 5%;
-        }.contact-icon:active {
-            animation: press 0.2s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        @keyframes press {
-            50% { transform: scale(0.95); }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            list-style: none;
         }
 
+        nav a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+            position: relative;
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary-color);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
         section {
             padding: 5rem 8%;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         #home {
             background: linear-gradient(var(--primary-color) 40%, var(--secondary-color) 40%);
             text-align: center;
-        }
-        .hero h1 {
-             overflow: hidden;
+            }
+           .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            overflow: hidden;
         }
 
         .hero h1 span {
             display: inline-block;
             animation: slideUp 0.6s ease both;
         }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(100%);
-                opacity: 0;
-            }
+         .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
         }
+
         .service-card {
-            transition: transform 0.3s, box-shadow 0.3s;
+            background: var(--secondary-color);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
         }
 
         .service-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(255,215,0,0.2);
-    }
- @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
- }
-@media (max-width: 768px) {
+        }
+
+        .contact-icons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-icon {
+            background: var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .contact-icon:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-icon a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            display: block;
+        }
+
+        .contact-icon i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(0.8); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(0.8); }
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce {
+            to { transform: translateY(-15px); opacity: 0.5; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
             nav ul { gap: 1.5rem; }
             .hero h1 { font-size: 2rem; }
-}
+            .services-grid { grid-template-columns: 1fr; }
+            .contact-icons { grid-template-columns: repeat(2, 1fr); }
+        }
     </style>
 </head>
 <body>
-<div class="loader-wrapper">
-    <div class="sun-loader">
-        <div class="core"></div>
-        <div class="ray"></div>
-        <div class="ray"></div>
-        <div class="ray"></div>
-        <div class="ray"></div>
-    </div>
+     <div class="loader-wrapper">
+        <div class="sun-loader">
+            <div class="core"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+        </div>
+        <div class="text-loader">
+            <span>加</span>
+            <span>载</span>
+            <span>中</span>
+            <span>.</span>
+            <span>.</span>
+            <span>.</span>
+        </div>
+     </div>
 
-
-    <nav>
+     <nav>
         <ul>
             <li><a href="#home">首页</a></li>
             <li><a href="#about">关于</a></li>
@@ -187,30 +268,27 @@ nav {
         </div>
     </section>
 
-
-    <section id="about">
-    <h2 class="animate-scroll">关于我们</h2>
-   <div class="services-grid">
-    <div class="services-card animate-scroll">
-   <h3>晓晓出品</h3>
-        <p>始于2019</p>
-     <p>文化出版机构</p>
-      <p>人员：@宅家的菠萝
-              @小海_小海球啊</p>
-    </div>
-    </section>
-
+     <section id="about">
+        <h2>关于我们</h2>
+        <p>我们是一支充满活力的创意团队</p>
+         <p>始于2019</p>
+     </section>
 
     <section id="services">
-         <h2 class="animate-scroll">我们的服务</h2>
+        <h2>我们的服务</h2>
         <div class="services-grid">
-            <div class="service-card animate-scroll">
+            <div class="service-card">
                 <h3>UI/UX设计</h3>
                 <p>专业的用户体验设计方案...</p>
+            </div>
+            <div class="service-card">
+                <h3>品牌设计</h3>
+                <p>企业形象与品牌视觉系统设计...</p>
+            </div>
         </div>
     </section>
 
-    <section id="contact">
+                   <section id="contact">
         <h2>联系我们</h2>
         <div class="contact-icons">
             <div class="contact-icon">
@@ -226,50 +304,59 @@ nav {
                 </a>
             </div>
             <div class="contact-icon">
-                <a href="http://wpa.qq.com/msgrd?v=3&uin=1608363362&site=qq&menu=yes" target="_blank">
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=1608363362" target="_blank">
                     <i class="fab fa-qq"></i>
                     <span>QQ</span>
                 </a>
-            </div>
+            </div>         
             <div class="contact-icon">
                 <a href="https://github.com" target="_blank">
-        <i class="fab fa-github"></i>
+                    <i class="fab fa-github"></i>
                     <span>GitHub</span>
                 </a>
             </div>
         </div>
-    </section>
-</body>
-    <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-active');
-                }
-            });
-        }, { threshold: 0.1 });
+                   </section>
 
-        document.querySelectorAll('.animate-scroll').forEach((el) => {
-            observer.observe(el);
+    <script>
+        window.addEventListener('load', () => {
+            const loader = document.querySelector('.loader-wrapper');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 600);
+
+                const heroText = document.querySelector('.hero h1');
+                heroText.innerHTML = heroText.textContent.split('').map((char, i) =>
+                    `<span style="animation-delay: ${i * 0.05}s">${char}</span>`
+                ).join('');
+
+                const sections = document.querySelectorAll('section');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                sections.forEach(section => observer.observe(section));
+            }, 1000);
         });
+
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('nav');
             nav.classList.toggle('scrolled', window.scrollY > 50);
         });
-        document.addEventListener('DOMContentLoaded', () => {
-            const heroText = document.querySelector('.hero h1');
-            heroText.innerHTML = heroText.textContent.split('').map((char, i) =>
-                `<span style="animation-delay: ${i * 0.05}s">${char}</span>`
-            ).join('');
-        });
-        window.addEventListener('load', () => {
-        const loader = document.querySelector('.loader-wrapper');
-        setTimeout(() => {
-            loader.classList.add('loader-hidden');
-            loader.addEventListener('transitionend', () => {
-                loader.remove();
+
+         document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
             });
-        }, 1000);
-    });
+        });
     </script>
+</body>
 </html>
+
+                
