@@ -3,141 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>晓晓出品 - 文化创意工作室</title>
+    <title>晓晓出品 - 创意设计</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --primary-color: #FFD700;  
+            --secondary-color: #FFFFFF; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary-color);
+        }
+
+        nav {
+            background-color: var(--primary-color);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+
+        nav a:hover {
+            color: #FFA500;
+        }
+
+        section {
+            padding: 5rem 8%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #home {
+            background: linear-gradient(var(--primary-color) 40%, var(--secondary-color) 40%);
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .contact-icons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-icon {
+            background-color: var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 15px;
+            transition: transform 0.3s;
+            text-align: center;
+        }
+
+        .contact-icon:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-icon a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            display: block;
+        }
+
+        .contact-icon i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1.5rem;
+            }
+            
+            .hero h1 {font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    
-    <header class="sticky-header">
-        <nav class="glass-nav">
-            <div class="nav-brand">
-                <span class="logo">晓晓出品</span>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> 首页</a></li>
-                <li><a href="#about" class="nav-link"><i class="fas fa-users"></i> 关于</a></li>
-                <li><a href="#services" class="nav-link"><i class="fas fa-palette"></i> 服务</a></li>
-                <li><a href="#contact" class="nav-link"><i class="fas fa-envelope"></i> 联系</a></li>
-            </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </nav>
-    </header>
+    <nav>
+        <ul>
+            <li><a href="#home">首页</a></li>
+            <li><a href="#about">关于</a></li>
+            <li><a href="#services">服务</a></li>
+            <li><a href="#contact">联系我们</a></li>
+        </ul>
+    </nav>
 
-    <main>
-        
-        <section id="home" class="hero-section">
-    <div class="color-wave">
-        <div class="wave w1"></div>
-        <div class="wave w2"></div>
-        <div class="wave w3"></div>
-    </div>
+    <section id="home">
+        <div class="hero">
+            <h1>晓晓出品</h1>
+            <p>创意设计 · 品质保证</p>
+        </div>
+    </section>
 
-            <div class="hero-content">
-                <h1 class="animate-text">欢迎来到晓晓天地✨</h1>
-                <div class="typewriter">
-                    <p>😉还是被你找到啦！</p>
-                    <p>这里是晓晓出品的创意空间！</p>
-                </div>
-                <div class="scroll-indicator">
-                    <div class="mouse"></div>
-                </div>
+    <section id="about">
+        <h2>关于我们</h2>
+        <p>我们是一支充满活力的创意团队...</p>
+    </section><section id="services">
+        <h2>我们的服务</h2>
+        <p>提供专业的设计解决方案...</p>
+    </section>
+
+    <section id="contact">
+        <h2>联系我们</h2>
+        <div class="contact-icons">
+            <div class="contact-icon">
+                <a href="https://www.bilibili.com/3546379932666508" target="_blank">
+                    <i class="fab fa-bilibili"></i>
+                    <span>B站</span>
+                </a>
             </div>
-        </section>
-
-        <section id="about" class="about-section">
-            <div class="section-container">
-                <h2 class="section-title"><i class="fas fa-star"></i> 关于我们</h2>
-                <div class="about-grid">
-                    <div class="about-card">
-                        <h3>晓晓出品</h3>
-                          <p class="subtitle">文化出版工作室</p>
-                        <div class="timeline">
-                            <div class="timeline-item">
-                                <span class="year">2019</span>
-                                <p>工作室成立</p>
-                            </div>
-                            <div class="timeline-item">
-                                <span class="year">2024</span>
-                                <p>全新升级出发</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="team-card">
-                        <h3>创作团队</h3>
-                        <ul class="team-list">
-            
- <li><i class="fas fa-user-astronaut"></i> @宅家的菠萝</li>
-                            <li><i class="fas fa-cat"></i> @小海_小海球啊</li>
-                        </ul>
-                        <div class="motto">
-                            <p>"我们相信，每个创意都值得被看见"</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="contact-icon">
+                <a href="mailto:1608363362@qq.com">
+                    <i class="fas fa-envelope"></i>
+                    <span>QQ邮箱</span>
+                </a>
             </div>
-        </section>
-
-        <section id="services" class="services-section">
-            <div class="section-container"      
-             <div class="color-splash s1"></div>
-    <div class="color-splash s2"></div>
-                <h2 class="section-title"><i class="fas fa-magic"></i> 我们的服务</h2>
-                <div class="service-grid">
-                    <div class="service-card">
-                        <div class="card-icon">
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        <h3>内容创作</h3>
-                   <p>原创故事/插画设计/剧本创作</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="card-icon">
-                            <i class="fas fa-video"></i>
-                        </div>
-                        <h3>数字媒体</h3>
-                        <p>视频制作/动态设计/新媒体运营</p>
-                    </div>
-                </div>
+            <div class="contact-icon">
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=1608363362&site=qq&menu=yes" target="_blank">
+                    <i class="fab fa-qq"></i>
+                    <span>QQ</span>
+                </a>
             </div>
-        </section>
-
-        <!-- 联系 -->
-        <section id="contact" class="contact-section">
-            <div class="section-container">
-                <h2 class="section-title"><i class="fas fa-comments"></i> 找到我们</h2>
-                <div class="contact-grid">
-                    <div class="contact-card bilibili">
-                        <a href="https://space.bilibili.com/3546379932666508" target="_blank">
-                             <i class="fab fa-bilibili"></i>
-                            <span>哔哩哔哩</span>
-                        </a>
-                    </div>
-                    <div class="contact-card qzone">
-                        <a href="http://user.qzone.qq.com/1608363362" target="_blank">
-                            <i class="fab fa-qq"></i>
-                            <span>QQ空间</span>
-                        </a>
-                    </div>
-                    <div class="contact-card email">
-                        <a href="mailto:1608363362@qq.com">
-                            <i class="fas fa-envelope"></i>
-                            <span>电子邮件</span>
-                        </a>
-                    </div>
-                </div>
+            <div class="contact-icon">
+                <a href="https://github.com" target="_blank">
+        <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
             </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 晓晓出品</p>
-    </footer>
-    <script src="script.js"></script>
-    v.1.161
+        </div>
+    </section>
 </body>
 </html>
