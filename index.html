@@ -6,74 +6,6 @@
     <title>晓晓出品 - 创意设计</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .loader-wrapper {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: white;
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        transition: opacity 0.6s ease;
-        }
-        .sun-loader {
-        position: relative;
-        width: 80px;
-        height: 80px;
-    }
-
-    .sun-loader .core {
-        width: 40px;
-        height: 40px;
-        background: #FFD700;
-        border-radius: 50%;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        animation: pulse 1.2s infinite;
-    }
-
-    .sun-loader .ray {
-        width: 8px;
-        height: 24px;
-        background: #FFD700;
-        position: absolute;
-        border-radius: 4px;
-        animation: rotate 4s linear infinite;
-    }
-
-    .sun-loader .ray:nth-child(2) { transform: rotate(45deg); }
-    .sun-loader .ray:nth-child(3) { transform: rotate(90deg); }
-    .sun-loader .ray:nth-child(4) { transform: rotate(135deg); }
-        @keyframes pulse {
-        0% { transform: translate(-50%, -50%) scale(0.8); }
-        50% { transform: translate(-50%, -50%) scale(1.1); }
-        100% { transform: translate(-50%, -50%) scale(0.8); }
-    }
-.text-loader span {
-        font-size: 2rem;
-        color: #FFD700;
-        display: inline-block;
-        animation: bounce 0.6s infinite alternate;
-    }
-
-    .text-loader span:nth-child(2) { animation-delay: 0.1s; }
-    .text-loader span:nth-child(3) { animation-delay: 0.2s; }
-    .text-loader span:nth-child(4) { animation-delay: 0.3s; }
-    .text-loader span:nth-child(5) { animation-delay: 0.4s; }
-    .text-loader span:nth-child(6) { animation-delay: 0.5s; }
-
-    @keyframes bounce {
-        to {
-            transform: translateY(-15px);
-            opacity: 0.5;
-        }
-            }
          .loader-hidden {
         opacity: 0;
         pointer-events: none;
@@ -176,25 +108,86 @@ nav {
             box-shadow: 0 15px 30px rgba(255,215,0,0.2);
     }
     </style>
+  <style>
+      .loader-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: white;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.6s ease;
+      }.sun-loader {
+        position: relative;
+        width: 80px;
+        height: 80px;
+    }
+
+    .sun-loader .core {
+        width: 40px;
+        height: 40px;
+        background: #FFD700;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation: pulse 1.2s infinite;
+    }
+
+    .sun-loader .ray {
+        width: 8px;
+        height: 24px;
+        background: #FFD700;
+        position: absolute;
+        border-radius: 4px;
+        animation: rotate 4s linear infinite;
+    }
+
+    .sun-loader .ray:nth-child(2) { transform: rotate(45deg); }
+    .sun-loader .ray:nth-child(3) { transform: rotate(90deg); }
+    .sun-loader .ray:nth-child(4) { transform: rotate(135deg); }@keyframes pulse {
+        0% { transform: translate(-50%, -50%) scale(0.8); }
+        50% { transform: translate(-50%, -50%) scale(1.1); }
+        100% { transform: translate(-50%, -50%) scale(0.8); }
+    }
+
+    @keyframes rotate {
+        to { transform: rotate(360deg); }
+    }.text-loader span {
+        font-size: 2rem;
+        color: #FFD700;
+        display: inline-block;
+        animation: bounce 0.6s infinite alternate;
+    }
+
+    .text-loader span:nth-child(2) { animation-delay: 0.1s; }
+    .text-loader span:nth-child(3) { animation-delay: 0.2s; }
+    .text-loader span:nth-child(4) { animation-delay: 0.3s; }
+    .text-loader span:nth-child(5) { animation-delay: 0.4s; }
+    .text-loader span:nth-child(6) { animation-delay: 0.5s; }
+
+    @keyframes bounce {
+        to {
+            transform: translateY(-15px);
+            opacity: 0.5;
+        }
+      }
+  </style>
 </head>
-<body><div class="loader-wrapper">
-    <!-- 风格1：太阳脉冲动画 -->
+<body>
+    <div class="loader-wrapper">
     <div class="sun-loader">
         <div class="core"></div>
         <div class="ray"></div>
         <div class="ray"></div>
         <div class="ray"></div>
         <div class="ray"></div>
-    </div>
-
-    <!-- 风格2：动态文字 -->
-    <div class="text-loader">
-        <span>加</span>
-        <span>载</span>
-        <span>中</span>
-        <span>.</span>
-        <span>.</span>
-        <span>.</span>
     </div>
     <nav>
         <ul>
