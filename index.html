@@ -10,7 +10,8 @@
             --primary-color: #FFD700;
             --secondary-color: #FFFFFF;
         }
- * {
+        
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -20,91 +21,19 @@
         body {
             background: var(--secondary-color);
             scroll-behavior: smooth;
-        }
-.loader-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: white;
-            z-index: 9999;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.6s ease;
         }
 
- .sun-loader {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    margin: 20px auto;
-  }
-
-  .core {
-    width: 40px;
-    height: 40px;
-    background: #FFD700;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: pulse 1.2s infinite;
-    z-index: 2;
-  }
-
-  .ray {
-    width: 8px;
-    height: 24px;
-    background: #FFD700;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform-origin: 50% 100%;
-    border-radius: 4px;
-    animation: rotate 4s linear infinite;
-    z-index: 1;
-  }
-         .ray:nth-child(2) { transform: translateX(-50%) rotate(45deg); }
-  .ray:nth-child(3) { transform: translateX(-50%) rotate(90deg); }
-  .ray:nth-child(4) { transform: translateX(-50%) rotate(135deg); }
-
-  @keyframes pulse {
-    0% { transform: translate(-50%, -50%) scale(0.8); }
-    50% { transform: translate(-50%, -50%) scale(1.2); }
-    100% { transform: translate(-50%, -50%) scale(0.8); }
-  }
-
-  @keyframes rotate {
-    to { transform: translateX(-50%) rotate(360deg); }
-  }
-
-        .text-loader span {
-            font-size: 2rem;
-            color: var(--primary-color);
-            display: inline-block;
-            animation: bounce 0.6s infinite alternate;
-        }
-        .text-loader span:nth-child(2) { animation-delay: 0.1s; }
-        .text-loader span:nth-child(3) { animation-delay: 0.2s; }
-        .text-loader span:nth-child(4) { animation-delay: 0.3s; }
-        .text-loader span:nth-child(5) { animation-delay: 0.4s; }
-        .text-loader span:nth-child(6) { animation-delay: 0.5s; }
         nav {
-            background-color: transparent;
+            background-color: var(--primary-color);
             padding: 1rem 5%;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 100;
             transition: all 0.3s ease;
-        }
-        nav.scrolled {
-            background-color: var(--primary-color);
-            padding: 0.8rem 5%;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
@@ -123,6 +52,7 @@
             font-size: 1.1rem;
             position: relative;
         }
+
         nav a::after {
             content: '';
             position: absolute;
@@ -137,38 +67,28 @@
         nav a:hover::after {
             width: 100%;
         }
-        section {
+section {
             padding: 5rem 8%;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
-        }
-
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         #home {
             background: linear-gradient(var(--primary-color) 40%, var(--secondary-color) 40%);
             text-align: center;
-            }
-           .hero h1 {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
             color: var(--secondary-color);
             overflow: hidden;
         }
-
-        .hero h1 span {
-            display: inline-block;
-            animation: slideUp 0.6s ease both;
-        }
-         .services-grid {
+        .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
@@ -187,8 +107,7 @@
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(255,215,0,0.2);
         }
-
-        .contact-icons {
+          .contact-icons {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 2rem;
@@ -216,53 +135,71 @@
         .contact-icon i {
             font-size: 2rem;
             margin-bottom: 0.5rem;
+        }
+         .game-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 99;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .game-button:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .game-button:active {
+            transform: scale(0.95);
+            animation: none;
+        }
+
+        .game-button i {
+            font-size: 2rem;
+            color: var(--secondary-color);
+        }
+          @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
             }
-
-        @keyframes pulse {
-            0% { transform: translate(-50%, -50%) scale(0.8); }
-            50% { transform: translate(-50%, -50%) scale(1.1); }
-            100% { transform: translate(-50%, -50%) scale(0.8); }
-        }
-
-        @keyframes rotate {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes bounce {
-            to { transform: translateY(-15px); opacity: 0.5; }
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(100%); opacity: 0; }
-        }
-
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+                 }
         @media (max-width: 768px) {
             nav ul { gap: 1.5rem; }
             .hero h1 { font-size: 2rem; }
             .services-grid { grid-template-columns: 1fr; }
             .contact-icons { grid-template-columns: repeat(2, 1fr); }
+            
+            .game-button {
+                width: 60px;
+                height: 60px;
+                bottom: 20px;
+                right: 20px;
+            }
         }
     </style>
 </head>
 <body>
-     <div class="loader-wrapper">
-        <div class="sun-loader">
-            <div class="core"></div>
-            <div class="ray"></div>
-            <div class="ray"></div>
-            <div class="ray"></div>
-            <div class="ray"></div>
-        </div>
-        <div class="text-loader">
-            <span>加</span>
-            <span>载</span>
-            <span>中</span>
-            <span>.</span>
-            <span>.</span>
-            <span>.</span>
-        </div>
-     </div>
-
      <nav>
         <ul>
             <li><a href="#home">首页</a></li>
@@ -272,102 +209,9 @@
         </ul>
     </nav>
 
-    <section id="home">
+ <section id="home">
         <div class="hero">
             <h1>晓晓出品</h1>
             <p>创意设计 · 品质保证</p>
         </div>
-    </section>
-
-     <section id="about">
-        <h2>关于我们</h2>
-        <p>我们是一支充满活力的创意团队</p>
-         <p>始于2019</p>
-     </section>
-
-    <section id="services">
-        <h2>我们的服务</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3>UI/UX设计</h3>
-                <p>专业的用户体验设计方案...</p>
-            </div>
-            <div class="service-card">
-                <h3>品牌设计</h3>
-                <p>企业形象与品牌视觉系统设计...</p>
-            </div>
-        </div>
-    </section>
-
-                   <section id="contact">
-        <h2>联系我们</h2>
-        <div class="contact-icons">
-            <div class="contact-icon">
-                <a href="https://space.bilibili.com/3546379932666508" target="_blank">
-                    <i class="fab fa-bilibili"></i>
-                    <span>B站</span>
-                </a>
-            </div>
-            <div class="contact-icon">
-                <a href="mailto:1608363362@qq.com">
-                    <i class="fas fa-envelope"></i>
-                    <span>QQ邮箱</span>
-                </a>
-            </div>
-            <div class="contact-icon">
-                <a href="http://wpa.qq.com/msgrd?v=3&uin=1608363362" target="_blank">
-                    <i class="fab fa-qq"></i>
-                    <span>QQ</span>
-                </a>
-            </div>         
-            <div class="contact-icon">
-                <a href="https://github.com" target="_blank">
-                    <i class="fab fa-github"></i>
-                    <span>GitHub</span>
-                </a>
-            </div>
-        </div>
-                   </section>
-
-    <script>
-        window.addEventListener('load', () => {
-            const loader = document.querySelector('.loader-wrapper');
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                setTimeout(() => loader.remove(), 600);
-
-                const heroText = document.querySelector('.hero h1');
-                heroText.innerHTML = heroText.textContent.split('').map((char, i) =>
-                    `<span style="animation-delay: ${i * 0.05}s">${char}</span>`
-                ).join('');
-
-                const sections = document.querySelectorAll('section');
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
-                        }
-                    });
-                }, { threshold: 0.1 });
-
-                sections.forEach(section => observer.observe(section));
-            }, 1000);
-        });
-
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            nav.classList.toggle('scrolled', window.scrollY > 50);
-        });
-
-         document.querySelectorAll('nav a').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                target.scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-    </script>
-</body>
-</html>
-
-                
+ </section>
