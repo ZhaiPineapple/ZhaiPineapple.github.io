@@ -10,7 +10,7 @@
             --primary-color: #FFD700;
             --secondary-color: #FFFFFF;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
@@ -88,7 +88,7 @@ section {
             color: var(--secondary-color);
             overflow: hidden;
         }
-        .services-grid {
+ .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
@@ -107,7 +107,7 @@ section {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(255,215,0,0.2);
         }
-          .contact-icons {
+       .contact-icons {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 2rem;
@@ -136,7 +136,7 @@ section {
             font-size: 2rem;
             margin-bottom: 0.5rem;
         }
-         .game-button {
+ .game-button {
             position: fixed;
             bottom: 30px;
             right: 30px;
@@ -168,7 +168,24 @@ section {
             font-size: 2rem;
             color: var(--secondary-color);
         }
-          @keyframes pulse {
+     .button-ripple {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            width: 100%;
+            height: 100%;
+            animation: ripple 2s infinite;
+            opacity: 0;
+        }
+
+        .button-ripple:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .button-ripple:nth-child(3) {
+            animation-delay: 1s;
+        }
+        @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
             70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
             100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
@@ -183,8 +200,8 @@ section {
                 transform: scale(1.5);
                 opacity: 0;
             }
-                 }
-        @media (max-width: 768px) {
+        }
+         @media (max-width: 768px) {
             nav ul { gap: 1.5rem; }
             .hero h1 { font-size: 2rem; }
             .services-grid { grid-template-columns: 1fr; }
@@ -207,11 +224,61 @@ section {
             <li><a href="#services">服务</a></li>
             <li><a href="#contact">联系我们</a></li>
         </ul>
-    </nav>
-
- <section id="home">
+     </nav>
+      <section id="home">
         <div class="hero">
             <h1>晓晓出品</h1>
             <p>创意设计 · 品质保证</p>
+            <p>下面文本是瞎写的！</p>
         </div>
- </section>
+    </section>
+<section id="about">
+        <h2>关于我们</h2>
+        <p>我们是一支充满活力的创意团队，专注于提供高品质的设计解决方案。凭借创新的思维和专业的技术，我们帮助客户实现品牌价值最大化。</p>
+</section>
+<section id="services">
+        <h2>我们的服务</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>UI/UX设计</h3>
+                <p>专业的用户体验设计方案，打造直观易用的数字产品界面。</p>
+            </div>
+            <div class="service-card">
+                <h3>品牌设计</h3>
+                <p>企业形象与品牌视觉系统设计，塑造独特品牌识别。</p>
+            </div>
+            <div class="service-card">
+                <h3>网页开发</h3>
+                <p>响应式网站开发，确保在各种设备上提供完美体验。</p>
+            </div>
+        </div>
+</section>
+<section id="contact">
+        <h2>联系我们</h2>
+        <div class="contact-icons">
+            <div class="contact-icon">
+                <a href="https://https://space.bilibili.com/3546379932666508" target="_blank">
+                    <i class="fab fa-bilibili"></i>
+                    <span>B站</span>
+                </a>
+            </div>
+            <div class="contact-icon">
+                <a href="mailto:1608363362@qq.com">
+                    <i class="fas fa-envelope"></i>
+                    <span>QQ邮箱</span>
+                </a>
+            </div>
+            <div class="contact-icon">
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=1608363362" target="_blank">
+                    <i class="fab fa-qq"></i>
+                    <span>QQ</span>
+                </a>
+            </div>
+            <div class="contact-icon">
+                <a href="https://github.com" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </div>
+</section>
