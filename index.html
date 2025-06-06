@@ -282,3 +282,55 @@ section {
             </div>
         </div>
 </section>
+<div class="game-button" id="gameButton">
+        <i class="fas fa-gamepad"></i>
+        <div class="button-ripple"></div>
+        <div class="button-ripple"></div>
+        <div class="button-ripple"></div>
+    </div>
+
+    <script>
+         window.addEventListener('load', function() {
+            const loader = document.querySelector('.loader-wrapper');
+             setTimeout(function() {
+                loader.classList.add('loader-hidden');
+               loader.addEventListener('transitionend', function() {
+                    if (loader.classList.contains('loader-hidden')) {
+                        loader.style.display = 'none';
+                    }
+                }, { once: true });
+                 const sections = document.querySelectorAll('section');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.1 });
+                
+                sections.forEach(section => observer.observe(section));
+            }, 1500);
+        });
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+         document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        document.getElementById('gameButton').addEventListener('click', function() {
+             this.style.transform = 'scale(0.8)';
+            this.style.animation = 'none';
+            setTimeout(() => {
+                window.location.href = "zhaipineapple.github.io/game.html";
+            }, 300);
+        });
+    </script>
+</body>
+</html>
