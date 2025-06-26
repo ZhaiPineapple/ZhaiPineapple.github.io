@@ -261,7 +261,7 @@
 <body>
     <div class="game-container">
         <div class="game-header">
-            <h1>🍍 ❤️宅家的菠萝❤️ 🍍</h1>
+            <h1>🍍宅家的菠萝🍍</h1>
             <p class="subtitle">收集菠萝 · 躲避怪物 · 像素冒险</p>
             
             <div class="stats">
@@ -340,4 +340,47 @@
               ctx.fillStyle = '#000';
                 ctx.fillRect(this.x + 10, this.y - 6, 4, 4);
                 ctx.fillRect(this.x + 18, this.y - 6, 4, 4);
-              
+              if (invincible) {
+                    ctx.strokeStyle = '#ffd166';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(this.x - 2, this.y - 2, this.width + 4, this.height + 4);
+                }
+            }
+        };
+        class Platform {
+            constructor(x, y, width) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = 16;
+                this.color = '#5a3d2b';
+            }
+            
+            dractx.fillStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.width, this.height);w() {
+                ctx.fillStyle = '#7f5539';
+                ctx.fillRect(this.x, this.y, this.width, 4);
+            ctx.fillStyle = '#3c2415';
+                for (let i = 8; i < this.width; i += 16) {
+                    ctx.fillRect(this.x + i, this.y + 4, 8, 8);
+                }
+            }
+        }
+        class Pineapple {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.width = 24;
+                this.height = 24;
+                this.collected = false;
+            }
+            
+            draw() {
+                if (!this.collected) {
+                ctx.fillStyle = '#ffd166';
+                    ctx.fillRect(this.x + 4, this.y, 16, 24);
+                ctx.fillStyle = '#e76f51';
+                    ctx.fillRect(this.x + 4, this.y + 6, 16, 4);
+                    ctx.fillRect(this.x + 4, this.y + 12, 16, 4);
+                    ctx.fillRect(this.x + 4, this.y + 18, 16, 4);          
+        
