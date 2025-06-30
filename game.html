@@ -384,3 +384,220 @@
                     ctx.fillRect(this.x + 4, this.y + 12, 16, 4);
                     ctx.fillRect(this.x + 4, this.y + 18, 16, 4);          
         
+const blink = Math.sin(Date.now() / 200) > 0;
+                    if (blink) {
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                        ctx.fillRect(this.x + 10, this.y + 2, 4, 4);
+                    }
+                }
+            }
+        }
+        class Enemy {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.width = 32;
+                this.height = 24;
+                this.speed = 2 + Math.random() * 2;
+                this.direction = 1;
+            }
+            
+            draw() {
+                ctx.fillStyle = '#e76f51';
+                ctx.fillRect(this.x, this.y + 8, this.width, this.height - 8);
+                ctx.fillStyle = '#f4a261';
+                ctx.fillRect(this.x, this.y, this.width, 8);
+                ctx.fillStyle = '#000';
+                ctx.fillRect(this.x + 6, this.y + 2, 4, 4);
+                ctx.fillRect(this.x + 22, this.y + 2, 4, 4);
+                ctx.fillStyle = '#e76f51';
+                ctx.fillRect(this.x + 4, this.y + this.height, 6, 8);
+                ctx.fillRect(this.x + 22, this.y + this.height, 6, 8);
+            }
+            
+            update() {
+                this.x += this.speed * this.direction;
+                if (this.x > canvas.width - this.width || this.x < 0) {
+                    this.direction *= -1;
+                }
+            }
+        }
+        function initGameObjects() {
+            platforms = [];
+            pineapples = [];
+            enemies = [];
+             platforms.push(new Platform(0, canvas.height - 20, canvas.width)); // 地面
+            platforms.push(new Platform(100, 300, 180));
+            platforms.push(new Platform(400, 250, 180));
+            platforms.push(new Platform(200, 180, 180));
+            platforms.push(new Platform(600, 320, 150));
+              pineapples.push(new Pineapple(150, 270));
+            pineapples.push(new Pineapple(450, 220));
+            pineapples.push(new Pineapple(250, 150));
+            pineapples.push(new Pineapple(650, 290));
+            pineapples.push(new Pineapple(350, 100));
+            pineapples.push(new Pineapple(700, 150));
+            enemies.push(new Enemy(300, canvas.height - 44));
+            enemies.push(new Enemy(500, 230));
+            enemies.push(new Enemy(100, 170));
+        }
+        function drawBackground() {
+             ctx.fillStyle = '#1d3557';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#f1faee';
+            for (let i = 0; i < 50; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height / 2;
+                ctx.fillRect(x, y, 2, 2);
+            }
+            ctx.fillStyle = '#f1faee';
+            ctx.beginPath();
+            ctx.arc(700, 60, 30, 0, Math.PI * 2);
+            ctx.fill();
+          ctx.fillStyle = '#a8dadc';
+            ctx.beginPath();
+            ctx.arc(690, 50, 5, 0, Math.PI * 2);
+            ctx.arc(710, 70, 4, 0, Math.PI * 2);
+            ctx.arc(690, 70, 3, 0, Math.PI * 2);
+            ctx.fill();
+        }
+            function gameLoop() {
+            if (!gameRunning) return;
+           drawBackground();
+            platforms.forEach(platform => platform.draw());
+                pineapples.forEach(pineapple => {
+                pineapple.draw();
+                    if (!pineapple.collected &&
+                    player.x < pineapple.x + pineapple.width &&
+                    player.x + player.width > pineapple.x &&
+                    player.y < pineapple.y + pineapple.height &&
+                    player.y + player.height > pineapple.y) {
+                    
+                    pineapple.collected = true;
+                    score += 10;
+                    pineapplesCollected++;
+            if (pineapplesCollected % 5 === 0) {
+                        lives = Math.min(lives + 1, 5);
+                        updateLifeDisplay();
+                    }
+                    
+                    updateStats();
+                }
+            });
+             enemies.forEach(enemy => {
+                enemy.update();
+                enemy.draw();
+                  if (!invincible &&
+                    player.x < enemy.x + enemy.width &&
+                    player.x + player.width > enemy.x &&
+                    player.y < enemy.y + enemy.height &&
+                    player.y + player.height > enemy.y) {
+                    
+                    lives--;
+                    updateLifeDisplay();
+                       invincible = true;
+                    invincibleTimer = 120;
+                    
+                    if (lives <= 0) {
+                        endGame();
+                    }
+                }
+            });
+             playerVelocity += gravity;
+            player.y += playerVelocity;
+            if (player.y > canvas.height - player.height - 20) {
+                player.y = canvas.height - player.height - 20;
+                playerVelocity = 0;
+                isJumping = false;
+            }
+                let onPlatform = false;
+            platforms.forEach(platform => {
+                if (player.y + player.height <= platform.y &&
+                    player.y + player.height + playerVelocity >= platform.y &&
+                    player.x + player.width > platform.x &&
+                    player.x < platform.x + platform.width) {
+                    
+                    player.y = platform.y - player.height;
+                    playerVelocity = 0;
+                    isJumping = false;
+                    onPlatform = true;
+                }
+            });
+                player.draw();
+                if (invincible) {
+                invincibleTimer--;
+                if (invincibleTimer <= 0) {
+                    invincible = false;
+                }
+            }
+            score += 0.1;
+            updateStats();
+            requestAnimationFrame(gameLoop);
+        }
+        function jump() {
+            if (!isJumping) {
+                playerVelocity = -12;
+                isJumping = true;
+            }
+        }
+        function updateStats() {
+            document.getElementById('score').textContent = Math.floor(score);
+            document.getElementById('pineapples').textContent = pineapplesCollected;
+        }
+        function updateLifeDisplay() {
+            const livesContainer = document.getElementById('lives');
+            livesContainer.innerHTML = '';
+            for (let i = 0; i < lives; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'pixel-heart';
+                livesContainer.appendChild(heart);
+            }
+        }
+        function startGame() {
+            if (!gameRunning) {
+                gameRunning = true;
+                score = 0;
+                lives = 3;
+                pineapplesCollected = 0;
+                player.x = 100;
+                player.y = canvas.height - 100;
+                playerVelocity = 0;
+                isJumping = false;
+                initGameObjects();
+                updateStats();
+                updateLifeDisplay();
+                gameLoop();
+            }
+        }
+        function endGame() {
+            gameRunning = false;
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#e76f51';
+            ctx.font = '28px "Press Start 2P"';
+            ctx.textAlign = 'center';
+            ctx.fillText('游戏结束!', canvas.width/2, canvas.height/2 - 30);
+            
+            ctx.fillStyle = '#ffd166';
+            ctx.font = '20px "Press Start 2P"';
+            ctx.fillText(`最终得分: ${Math.floor(score)}`, canvas.width/2, canvas.height/2 + 20);
+            
+            ctx.fillStyle = '#a7c957';
+            ctx.font = '16px "Press Start 2P"';
+            ctx.fillText('按"重新开始"按钮再玩一次', canvas.width/2, canvas.height/2 + 60);
+        }
+        function resetGame() {
+            gameRunning = false;
+            startGame();
+        }
+        function initEventListeners() {
+            document.getElementById('startBtn').addEventListener('click', startGame);
+            document.getElementById('jumpBtn').addEventListener('click', jump);
+            document.getElementById('resetBtn').addEventListener('click', resetGame);
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space') {
+                    jump();
+                }
+                
