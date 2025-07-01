@@ -600,4 +600,94 @@ const blink = Math.sin(Date.now() / 200) > 0;
                 if (e.code === 'Space') {
                     jump();
                 }
+                 function updateStats() {
+            document.getElementById('score').textContent = Math.floor(score);
+            document.getElementById('pineapples').textContent = pineapplesCollected;
+        }
+        function updateLifeDisplay() {
+            const livesContainer = document.getElementById('lives');
+            livesContainer.innerHTML = '';
+            for (let i = 0; i < lives; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'pixel-heart';
+                livesContainer.appendChild(heart);
+            }
+        }
+        function startGame() {
+            if (!gameRunning) {
+                gameRunning = true;
+                score = 0;
+                lives = 3;
+                pineapplesCollected = 0;
+                player.x = 100;
+                player.y = canvas.height - 100;
+                playerVelocity = 0;
+                isJumping = false;
+                initGameObjects();
+                updateStats();
+                updateLifeDisplay();
+                gameLoop();
+            }
+        }
+       function endGame() {
+            gameRunning = false;
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#e76f51';
+            ctx.font = '28px "Press Start 2P"';
+            ctx.textAlign = 'center';
+            ctx.fillText('游戏结束!', canvas.width/2, canvas.height/2 - 30);
+            
+            ctx.fillStyle = '#ffd166';
+            ctx.font = '20px "Press Start 2P"';
+            ctx.fillText(`最终得分: ${Math.floor(score)}`, canvas.width/2, canvas.height/2 + 20);
+            
+            ctx.fillStyle = '#a7c957';
+            ctx.font = '16px "Press Start 2P"';
+            ctx.fillText('按"重新开始"按钮再玩一次', canvas.width/2, canvas.height/2 + 60);
+        }
                 
+function resetGame() {
+            gameRunning = false;
+            startGame();
+        }
+                function initEventListeners() {
+            document.getElementById('startBtn').addEventListener('click', startGame);
+            document.getElementById('jumpBtn').addEventListener('click', jump);
+            document.getElementById('resetBtn').addEventListener('click', resetGame);
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space') {
+                    jump();
+                }
+                if (e.code === 'ArrowLeft') {
+                    player.x = Math.max(player.x - playerSpeed, 0);
+                }
+                if (e.code === 'ArrowRight') {
+                    player.x = Math.min(player.x + playerSpeed, canvas.width - player.width);
+                }
+                if (e.code === 'KeyP' && gameRunning) {
+                    invincible = true;
+                    invincibleTimer = 300; // 5秒无敌
+                }
+            });
+            document.getElementById('egg').addEventListener('click', () => {
+                const eggMessage = document.getElementById('eggMessage');
+                eggMessage.style.display = eggMessage.style.display === 'block' ? 'none' : 'block';
+            });
+        }
+        window.onload = function() {
+            initGameObjects();
+            initEventListeners();
+            drawBackground();
+            player.draw();
+            platforms.forEach(p => p.draw());
+            pineapples.forEach(p => p.draw());
+            enemies.forEach(e => e.draw());
+            
+            updateLifeDisplay();
+        };
+    </script>
+</body>
+</html>
