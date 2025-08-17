@@ -7,34 +7,130 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #FFD700;
-            --secondary-color: #FFFFFF;
+            --primary-color: #FFD700; /* 活力黄 */
+            --secondary-color: #FFFFFF; /* 纯净白 */
+            --accent-color: #FF6B6B; /* 游戏按钮红 */
+            --dark-color: #333333; /* 深灰文本 */
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
         }
 
         body {
             background: var(--secondary-color);
             scroll-behavior: smooth;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            overflow-x: hidden;
+            color: var(--dark-color);
         }
 
-        nav {
-            background-color: var(--primary-color);
+        /* 加载动画 */
+        .loader-wrapper {
+            position: fixed;
+    top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: white;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, transform 1s ease;
+        }
+
+        .loader-content {
+            text-align: center;
+            position: relative;
+        }
+
+        .sun-loader {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+        }
+        
+   .sun-loader .core {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 1.5s infinite;
+            z-index: 2;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .sun-loader .ray {
+            width: 10px;
+            height: 35px;
+            background: var(--primary-color);
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform-origin: 50% 100%;
+            border-radius: 5px;
+            animation: rotate 6s linear infinite;
+            z-index: 1;
+            }
+        .sun-loader .ray:nth-child(2) { transform: translateX(-50%) rotate(45deg); }
+        .sun-loader .ray:nth-child(3) { transform: translateX(-50%) rotate(90deg); }
+        .sun-loader .ray:nth-child(4) { transform: translateX(-50%) rotate(135deg); }
+        .sun-loader .ray:nth-child(5) { transform: translateX(-50%) rotate(180deg); }
+        .sun-loader .ray:nth-child(6) { transform: translateX(-50%) rotate(225deg); }
+        .sun-loader .ray:nth-child(7) { transform: translateX(-50%) rotate(270deg); }
+        .sun-loader .ray:nth-child(8) { transform: translateX(-50%) rotate(315deg); }
+
+        .text-loader {
+            font-size: 2rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            }
+        
+ .text-loader span {
+            display: inline-block;
+            animation: bounce 0.8s infinite alternate;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .text-loader span:nth-child(1) { animation-delay: 0s; }
+        .text-loader span:nth-child(2) { animation-delay: 0.1s; }
+        .text-loader span:nth-child(3) { animation-delay: 0.2s; }
+        .text-loader span:nth-child(4) { animation-delay: 0.3s; }
+        .text-loader span:nth-child(5) { animation-delay: 0.4s; }
+        .text-loader span:nth-child(6) { animation-delay: 0.5s; }
+
+        .loader-hidden {
+            opacity: 0;
+            transform: scale(1.2);
+            pointer-events: none;
+        }
+nav {
+            background-color: rgba(255, 215, 0, 0.95);
             padding: 1rem 5%;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 100;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        nav.scrolled {
+            padding: 0.8rem 5%;
+            background-color: var(--primary-color);
         }
 
         nav ul {
@@ -43,87 +139,181 @@
             gap: 3rem;
             list-style: none;
         }
-
-        nav a {
+nav a {
             color: var(--secondary-color);
             text-decoration: none;
             font-weight: bold;
-            transition: color 0.3s;
+            transition: all 0.3s;
             font-size: 1.1rem;
             position: relative;
+            padding: 5px 10px;
+            border-radius: 20px;
         }
 
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        nav a.active {
             background: var(--secondary-color);
-            transition: width 0.3s;
+            color: var(--primary-color);
         }
 
-        nav a:hover::after {
-            width: 100%;
-        }
-section {
-            padding: 5rem 8%;
+        /* 内容区块 */
+        section {
+            padding: 6rem 8% 4rem;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
         }
 
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
         #home {
-            background: linear-gradient(var(--primary-color) 40%, var(--secondary-color) 40%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, #FFEC8B 100%);
             text-align: center;
             position: relative;
             overflow: hidden;
         }
 
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
             color: var(--secondary-color);
-            overflow: hidden;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            font-weight: 800;
+            letter-spacing: 2px;
         }
- .services-grid {
+
+        .hero p {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+    }
+        .about-content {
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: rgba(255, 215, 0, 0.1); 
+            padding: 2.5rem; 
+            border-radius: 20px;
+        }
+
+        .about-content p {
+            font-size: 1.2rem; 
+            line-height: 1.8; 
+            color: #555; 
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-container {
+            display: flex; 
+            justify-content: center; 
+            gap: 2rem; 
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .stat-number {
+            font-size: 3rem; 
+            font-weight: bold; 
+            color: var(--primary-color);
+            }
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: var(--dark-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
         }
 
         .service-card {
             background: var(--secondary-color);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            text-align: center;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+ .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 40px rgba(255,215,0,0.3);
+            border-color: var(--primary-color);
         }
 
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(255,215,0,0.2);
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--primary-color);
         }
-       .contact-icons {
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.7;
+                       }
+        .contact-icons {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2.5rem;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .contact-icon {
             background: var(--primary-color);
-            padding: 1.5rem;
+            padding: 2rem 1rem;
             border-radius: 15px;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .contact-icon:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px) rotate(5deg);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.15);
         }
 
         .contact-icon a {
@@ -133,45 +323,50 @@ section {
         }
 
         .contact-icon i {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
         }
- .game-button {
+
+        .contact-icon span {
+            font-size: 1.1rem;
+            font-weight: 500;
+                }
+        .game-button {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 70px;
-            height: 70px;
+            bottom: 40px;
+            right: 40px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            background: var(--primary-color);
+            background: var(--accent-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
             cursor: pointer;
             z-index: 99;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             animation: pulse 2s infinite;
         }
 
         .game-button:hover {
-            transform: scale(1.1) rotate(10deg);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        }
-
-        .game-button:active {
-            transform: scale(0.95);
+            transform: scale(1.15) rotate(15deg);
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.6);
             animation: none;
         }
 
-        .game-button i {
-            font-size: 2rem;
-            color: var(--secondary-color);
+        .game-button:active {
+            transform: scale(0.9);
         }
-     .button-ripple {
+
+        .game-button i {
+            font-size: 2.2rem;
+            color: white;
+                             }
+        .button-ripple {
             position: absolute;
             border-radius: 50%;
-            border: 2px solid var(--primary-color);
+            border: 2px solid var(--accent-color);
             width: 100%;
             height: 100%;
             animation: ripple 2s infinite;
@@ -185,10 +380,10 @@ section {
         .button-ripple:nth-child(3) {
             animation-delay: 1s;
         }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+ @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.6); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 107, 107, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
         }
 
         @keyframes ripple {
@@ -197,78 +392,177 @@ section {
                 opacity: 0.7;
             }
             100% {
-                transform: scale(1.5);
+                transform: scale(1.6);
                 opacity: 0;
             }
         }
-         @media (max-width: 768px) {
-            nav ul { gap: 1.5rem; }
-            .hero h1 { font-size: 2rem; }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(0.9); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+            100% { transform: translate(-50%, -50%) scale(0.9); }
+        }
+
+        @keyframes rotate {
+            to { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        @keyframes bounce {
+            to { transform: translateY(-20px); }
+            }
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 3rem; }
+            .section-title { font-size: 2.2rem; }
+        }
+
+        @media (max-width: 768px) {
+            nav ul { gap: 1.2rem; }
+            nav a { font-size: 1rem; padding: 5px 8px; }
+            
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.2rem; }
+            
+            .section-title { font-size: 2rem; }
             .services-grid { grid-template-columns: 1fr; }
             .contact-icons { grid-template-columns: repeat(2, 1fr); }
             
             .game-button {
-                width: 60px;
-                height: 60px;
-                bottom: 20px;
-                right: 20px;
+                width: 70px;
+                height: 70px;
+                bottom: 30px;
+                right: 30px;
             }
         }
-    </style>
-</head>
-<body>
-     <nav>
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2rem; }
+            nav ul { gap: 0.8rem; }
+            .contact-icons { grid-template-columns: 1fr; }
+            .stats-container { gap: 1rem; }
+            .stat-item { min-width: 100px; }
+      <div class="loader-wrapper">
+        <div class="loader-content">
+            <div class="sun-loader">
+                <div class="core"></div>
+                <div class="ray"></div>
+                <div class="ray"></div>
+                <div class="ray"></div>
+                <div class="ray"></div>
+                <div class="ray"></div>
+                <div class="ray"></div>
+                <div class="ray"></div>
+                <div class="ray"></div>
+            </div>
+            <div class="text-loader">
+                <span>加</span>
+                <span>载</span>
+                <span>中</span>
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+            </div>
+        </div>
+    </div>
+              <nav>
         <ul>
-            <li><a href="#home">首页</a></li>
+            <li><a href="#home" class="active">首页</a></li>
             <li><a href="#about">关于</a></li>
             <li><a href="#services">服务</a></li>
             <li><a href="#contact">联系我们</a></li>
         </ul>
-     </nav>
-      <section id="home">
+    </nav>
+
+    <!-- 首页 -->
+    <section id="home">
         <div class="hero">
             <h1>晓晓出品</h1>
-            <p>创意设计 · 品质保证</p>
-            <p>下面文本是瞎写的！</p>
+            <p>创意设计 · 品质保证 · 专业团队为您打造卓越视觉体验</p>
+            <p>以下文本是AI瞎写的</p>
         </div>
     </section>
 <section id="about">
-        <h2>关于我们</h2>
-        <p>我们是一支充满活力的创意团队，专注于提供高品质的设计解决方案。凭借创新的思维和专业的技术，我们帮助客户实现品牌价值最大化。</p>
-</section>
-<section id="services">
-        <h2>我们的服务</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3>UI/UX设计</h3>
-                <p>专业的用户体验设计方案，打造直观易用的数字产品界面。</p>
-            </div>
-            <div class="service-card">
-                <h3>品牌设计</h3>
-                <p>企业形象与品牌视觉系统设计，塑造独特品牌识别。</p>
-            </div>
-            <div class="service-card">
-                <h3>网页开发</h3>
-                <p>响应式网站开发，确保在各种设备上提供完美体验。</p>
+        <h2 class="section-title">关于我们</h2>
+        <div class="about-content">
+            <p>
+                我们是一支充满活力的创意团队，由资深设计师和开发专家组成。成立于2019年，专注于提供高品质的设计解决方案。凭借创新的思维和专业的技术，我们帮助客户实现品牌价值最大化。
+            </p>
+            <p>
+                我们的使命是让每个设计都充满温度，让每个产品都拥有灵魂。无论您需要UI设计、品牌形象还是网页开发，我们都能提供专业的解决方案。
+            </p>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">5+</div>
+                    <div>年行业经验</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">200+</div>
+                    <div>成功项目</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div>客户满意度</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div>专业团队</div>
+               </div>
             </div>
         </div>
-</section>
+    </section>
+
+    <!-- 服务 -->
+    <section id="services">
+        <h2 class="section-title">我们的服务</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <h3>UI/UX设计</h3>
+                <p>专业的用户体验设计方案，打造直观易用的数字产品界面，提升用户满意度和转化率。</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-crown"></i>
+                </div>
+            <h3>品牌设计</h3>
+                <p>企业形象与品牌视觉系统设计，塑造独特品牌识别，增强市场竞争力。</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>网页开发</h3>
+                <p>响应式网站开发，确保在各种设备上提供完美体验，同时兼顾性能与SEO优化。</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>移动应用</h3>
+                <p>iOS与Android平台应用开发，结合创新设计理念与强大功能实现。</p>
+            </div>
+        </div>
+    </section>
 <section id="contact">
-        <h2>联系我们</h2>
+        <h2 class="section-title">联系我们</h2>
+        <p style="text-align: center; margin-bottom: 2rem; font-size: 1.2rem; color: #555;">
+            欢迎通过以下方式与我们取得联系，我们将尽快回复您
+        </p>
         <div class="contact-icons">
             <div class="contact-icon">
-                <a href="https://https://space.bilibili.com/3546379932666508" target="_blank">
+                <a href=" https://b23.tv/8GNsQlz" target="_blank">
                     <i class="fab fa-bilibili"></i>
                     <span>B站</span>
                 </a>
             </div>
             <div class="contact-icon">
-                <a href="mailto:1608363362@qq.com">
+                <a href="mailto:contact@zhaipineapple@163.com">
                     <i class="fas fa-envelope"></i>
-                    <span>QQ邮箱</span>
+                    <span>邮箱</span>
                 </a>
             </div>
-            <div class="contact-icon">
+             <div class="contact-icon">
                 <a href="http://wpa.qq.com/msgrd?v=3&uin=1608363362" target="_blank">
                     <i class="fab fa-qq"></i>
                     <span>QQ</span>
@@ -281,8 +575,8 @@ section {
                 </a>
             </div>
         </div>
-</section>
-<div class="game-button" id="gameButton">
+    </section>
+            <div class="game-button" id="gameButton">
         <i class="fas fa-gamepad"></i>
         <div class="button-ripple"></div>
         <div class="button-ripple"></div>
@@ -290,16 +584,21 @@ section {
     </div>
 
     <script>
-         window.addEventListener('load', function() {
+        // 页面加载完成后执行
+        window.addEventListener('load', function() {
             const loader = document.querySelector('.loader-wrapper');
-             setTimeout(function() {
+            
+            // 显示加载动画至少1.5秒
+            setTimeout(function() {
                 loader.classList.add('loader-hidden');
-               loader.addEventListener('transitionend', function() {
+                loader.addEventListener('transitionend', function() {
                     if (loader.classList.contains('loader-hidden')) {
                         loader.style.display = 'none';
                     }
                 }, { once: true });
-                 const sections = document.querySelectorAll('section');
+                
+                // 初始化滚动观察
+                const sections = document.querySelectorAll('section');
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
@@ -307,30 +606,47 @@ section {
                         }
                     });
                 }, { threshold: 0.1 });
-                
                 sections.forEach(section => observer.observe(section));
             }, 1500);
         });
+        
+        // 导航栏滚动效果
         window.addEventListener('scroll', function() {
             const nav = document.querySelector('nav');
             nav.classList.toggle('scrolled', window.scrollY > 50);
         });
-         document.querySelectorAll('nav a').forEach(anchor => {
+        
+        // 导航链接点击事件
+        document.querySelectorAll('nav a').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
+                
+                // 更新活动状态
                 document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
                 this.classList.add('active');
+                
+                // 平滑滚动
                 const target = document.querySelector(this.getAttribute('href'));
                 target.scrollIntoView({ behavior: 'smooth' });
             });
         });
-        document.getElementById('gameButton').addEventListener('click', function() {
-             this.style.transform = 'scale(0.8)';
+               document.getElementById('gameButton').addEventListener('click', function() {
+            // 添加点击效果
+            this.style.transform = 'scale(0.8)';
             this.style.animation = 'none';
+            
+
             setTimeout(() => {
-                window.location.href = "https://zhaipineapple.github.io/game.html";
+    
+                window.location.href = "http://zhaipineapple.github.io/game.html
+                ";
             }, 300);
         });
     </script>
 </body>
 </html>
+    
+        
+
+
+                
