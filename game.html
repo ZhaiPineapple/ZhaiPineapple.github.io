@@ -2,692 +2,272 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>小游戏</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>菠萝跑酷</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Press Start 2P', cursive, sans-serif;
         }
-        
         body {
-            background: linear-gradient(135deg, #1a5d1a, #0d3b0d);
-            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .game-container {
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
-            padding: 20px;
-            text-align: center;
-            width: 90%;
-            max-width: 800px;
-            position: relative;
-            overflow: hidden;
-    border: 8px solid #5a3d2b;
-        }
-        
-        .game-header {
-            background: linear-gradient(to right, #5a3d2b, #3c2415);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 4px solid #ffd166;
-            position: relative;
+            background: #111;
             overflow: hidden;
         }
-        
-        h1 {
-            color: #ffd166;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 3px 3px 0 #e76f51;
-            letter-spacing: 2px;
-            position: relative;
-            z-index: 2;
-        }
-         .subtitle {
-            color: #a7c957;
-            font-size: 1rem;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 0 #000;
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            background: #2d1e13;
-            border-radius: 10px;
-            padding: 10px;
-            margin: 10px 0;
-            border: 3px solid #ffd166;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .stat-item {
-            color: #f4a261;
-            font-size: 1rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-      }
-      .pixel-heart {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            background: #e63946;
-            position: relative;
-            transform: rotate(-45deg);
-        }
-        
-        .pixel-heart::before,
-        .pixel-heart::after {
-            content: '';
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: #e63946;
-        }
-        
-        .pixel-heart::before {
-            top: -12px;
-            left: 0;
-        }
-        
-        .pixel-heart::after {
-            top: 0;
-            left: 12px;
-              }
-      #gameCanvas {
-            background: #1d2d44;
-            border-radius: 8px;
-            border: 4px solid #5a3d2b;
-            margin: 10px auto;
+        canvas {
+            background: #87CEEB;
             display: block;
-            max-width: 100%;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.7);
-            image-rendering: pixelated;
         }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 15px 0;
-            flex-wrap: wrap;
-        }
-        
-        button {
-            background: linear-gradient(to bottom, #f4a261, #e76f51);
-            color: #2d1e13;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 20px;
-            font-size: 1rem;
-            cursor: pointer;
-            box-shadow: 0 4px 0 #bc6c25;
-            transition: all 0.2s;
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
-        }
-        
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 0 #bc6c25;
-        }
-        
-        button:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #bc6c25;
-        }
-        
-        .instructions {
-            background-color: rgba(90, 61, 43, 0.8);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            border: 3px solid #ffd166;
-            color: #f8f9fa;
-            font-size: 0.8rem;
-            line-height: 1.6;
-        }
-        
-        .instructions h3 {
-            color: #ffd166;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 0 #000;
-        }
-         .instructions p {
-            margin: 5px 0;
-            text-align: left;
-        }
-        
-        .pineapple-decoration {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 3rem;
-            animation: spin 4s infinite linear;
-            filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.5));
-            z-index: 1;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .author-egg {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            width: 40px;
-            height: 40px;
-            background: #ffd166;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #5a3d2b;
-            font-weight: bold;
-            box-shadow: 0 3px 5px rgba(0,0,0,0.3);
-          max-width: 250px;
-            display: none;
-            border: 3px solid #e76f51;
-            animation: popIn 0.5s ease-out;
-            color: #5a3d2b;
-            font-size: 0.9rem;
-            text-align: left;
-        }
-        
-        .egg-message h3 {
-            color: #e76f51;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        
-        .egg-message p {
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
-        
-        @keyframes popIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-          .pixel-pineapple {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            font-size: 2.5rem;
-            animation: bounce 2s infinite;
-            filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.5));
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-        
-        .game-footer {
-            color: #a7c957;
-            font-size: 0.7rem;
-            margin-top: 10px;
-            text-shadow: 1px 1px 0 #000;
-        }
-        
-        @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
-            .stat-item { font-size: 0.8rem; }
-            button { padding: 10px 15px; font-size: 0.9rem; }
-            .pineapple-decoration { font-size: 2rem; }
-      }
-      </style>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    </style>
 </head>
 <body>
-    <div class="game-container">
-        <div class="game-header">
-            <h1>🍍宅家的菠萝🍍</h1>
-            <p class="subtitle">收集菠萝 · 躲避怪物 · 像素冒险</p>
-            
-            <div class="stats">
-                <div class="stat-item">得分: <span id="score">0</span></div>
-                <div class="stat-item">生命: 
-                    <div id="lives">
-                        <span class="pixel-heart"></span>
-                        <span class="pixel-heart"></span>
-                        <span class="pixel-heart"></span>
-                    </div>
-                </div>
-                <div class="stat-item">菠萝: <span id="pineapples">0</span> 🍍</div>
-            </div>
-        </div>
-        <div class="stat-item">菠萝: <span id="pineapples">0</span> 🍍</div>
-            </div>
-        </div>
-        
-        <canvas id="gameCanvas" width="800" height="400"></canvas>
-        
-        <div class="controls">
-            <button id="startBtn">开始游戏</button>
-            <button id="jumpBtn">跳跃 (空格)</button>
-            <button id="resetBtn">重新开始</button>
-        </div>
-        
-        <div class="instructions">
-            <h3>游戏说明</h3>
-            <p>→ 使用左右箭头键移动角色，空格键跳跃</p>
-            <p>→ 收集金色菠萝获得分数（每个+10分）</p>
-            <p>→ 躲避移动的怪物，碰到会损失生命</p>
-            <p>→ 收集5个菠萝获得额外生命</p>
-        </div>
-         <div class="game-footer">像素菠萝冒险 v1.0</div>
-        
-        <div class="pineapple-decoration">🍍</div>
-        <div class="author-egg" id="egg">DEV</div>
-        <div class="egg-message" id="eggMessage">
-            <h3>关于开发者</h3>
-            <p>这个游戏由宅家的菠萝开发！</p>
-            <p>开发灵感源于对菠萝和像素游戏的热爱(bushi</p>
-        </div>
-    </div>
-    
-    <div class="pixel-pineapple">🍍</div>
+<canvas id="game"></canvas>
 
-    <script>
-      const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-         let gameRunning = false;
-        let score = 0;
-        let lives = 3;
-        let pineapplesCollected = 0;
-        let playerX = 100;
-        let playerY = canvas.height - 100;
-        let playerVelocity = 0;
-        let playerSpeed = 5;
-        let gravity = 0.5;
-        let isJumping = false;
-        let platforms = [];
-        let pineapples = [];
-        let enemies = [];
-        let gameSpeed = 2;
-        let invincible = false;
-        let invincibleTimer = 0;
-      const player = {
-            x: playerX,
-            y: playerY,
-            width: 32,
-            height: 32,
-            draw() {
-              ctx.fillStyle = invincible ? '#ff6b6b' : '#4cc9f0';
-                ctx.fillRect(this.x, this.y, this.width, this.height);
-               ctx.fillStyle = invincible ? '#ffd166' : '#f72585';
-                ctx.fillRect(this.x + 8, this.y - 8, 16, 8);
-              ctx.fillStyle = '#000';
-                ctx.fillRect(this.x + 10, this.y - 6, 4, 4);
-                ctx.fillRect(this.x + 18, this.y - 6, 4, 4);
-              if (invincible) {
-                    ctx.strokeStyle = '#ffd166';
-                    ctx.lineWidth = 2;
-                    ctx.strokeRect(this.x - 2, this.y - 2, this.width + 4, this.height + 4);
-                }
-            }
-        };
-        class Platform {
-            constructor(x, y, width) {
-                this.x = x;
-                this.y = y;
-                this.width = width;
-                this.height = 16;
-                this.color = '#5a3d2b';
-            }
-            
-            dractx.fillStyle = this.color;
-                ctx.fillRect(this.x, this.y, this.width, this.height);w() {
-                ctx.fillStyle = '#7f5539';
-                ctx.fillRect(this.x, this.y, this.width, 4);
-            ctx.fillStyle = '#3c2415';
-                for (let i = 8; i < this.width; i += 16) {
-                    ctx.fillRect(this.x + i, this.y + 4, 8, 8);
-                }
-            }
-        }
-        class Pineapple {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.width = 24;
-                this.height = 24;
-                this.collected = false;
-            }
-            
-            draw() {
-                if (!this.collected) {
-                ctx.fillStyle = '#ffd166';
-                    ctx.fillRect(this.x + 4, this.y, 16, 24);
-                ctx.fillStyle = '#e76f51';
-                    ctx.fillRect(this.x + 4, this.y + 6, 16, 4);
-                    ctx.fillRect(this.x + 4, this.y + 12, 16, 4);
-                    ctx.fillRect(this.x + 4, this.y + 18, 16, 4);          
-        
-const blink = Math.sin(Date.now() / 200) > 0;
-                    if (blink) {
-                        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-                        ctx.fillRect(this.x + 10, this.y + 2, 4, 4);
-                    }
-                }
-            }
-        }
-        class Enemy {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.width = 32;
-                this.height = 24;
-                this.speed = 2 + Math.random() * 2;
-                this.direction = 1;
-            }
-            
-            draw() {
-                ctx.fillStyle = '#e76f51';
-                ctx.fillRect(this.x, this.y + 8, this.width, this.height - 8);
-                ctx.fillStyle = '#f4a261';
-                ctx.fillRect(this.x, this.y, this.width, 8);
-                ctx.fillStyle = '#000';
-                ctx.fillRect(this.x + 6, this.y + 2, 4, 4);
-                ctx.fillRect(this.x + 22, this.y + 2, 4, 4);
-                ctx.fillStyle = '#e76f51';
-                ctx.fillRect(this.x + 4, this.y + this.height, 6, 8);
-                ctx.fillRect(this.x + 22, this.y + this.height, 6, 8);
-            }
-            
-            update() {
-                this.x += this.speed * this.direction;
-                if (this.x > canvas.width - this.width || this.x < 0) {
-                    this.direction *= -1;
-                }
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+canvas.width = 360;
+canvas.height = 640;
+
+const keys = {
+    left: false,
+    right: false,
+    jump: false,
+    duck: false
+};
+
+const player = {
+    x: 130,
+    y: 480,
+    w: 60,
+    h: 70,
+    speedX: 6,
+    vy: 0,
+    jumpPower: -16,
+    gravity: 0.7,
+    onGround: true,
+    hp: 5,
+    maxHp: 5,
+    duck: false,
+    hurtCD: 0
+};
+
+const lanes = [60, 130, 200];
+let currentLane = 1;
+
+let turrets = [];
+let lasers = [];
+
+let groundOffset = 0;
+const groundSpeed = 4;
+let score = 0;
+let gameOver = false;
+
+function drawBackground() {
+    ctx.fillStyle = '#87CEEB';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = '#42a5f5';
+    ctx.fillRect(0,550,canvas.width,90);
+    ctx.fillStyle = '#ffdf91';
+    ctx.fillRect(0,510,canvas.width,40);
+    ctx.fillStyle = '#ffffff';
+    groundOffset += groundSpeed;
+    if(groundOffset > 40) groundOffset = 0;
+    for(let i=0;i<4;i++){
+        ctx.fillRect(115, groundOffset + i*120,6,30);
+        ctx.fillRect(185, groundOffset + i*120,6,30);
+    }
+}
+
+function drawPlayer(){
+    ctx.save();
+    let ph = player.duck ? player.h * 0.55 : player.h;
+    let py = player.duck ? player.y + player.h*0.45 : player.y;
+    ctx.fillStyle='#ffcc00';
+    ctx.beginPath();
+    ctx.roundRect(player.x, py, player.w, ph,12);
+    ctx.fill();
+    ctx.fillStyle='#38a838';
+    ctx.beginPath();
+    ctx.ellipse(player.x+30, py-8,22,12,0,0,Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle="#000";
+    ctx.beginPath();
+    ctx.arc(player.x+18,py+22,5,0,Math.PI*2);
+    ctx.arc(player.x+42,py+22,5,0,Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+}
+
+function spawnTurret(){
+    if(Math.random()<0.008 && turrets.length < 3){
+        let lane = Math.floor(Math.random()*3);
+        turrets.push({
+            x: lanes[lane],
+            y: -80,
+            w:55,
+            h:55,
+            shootTimer:0
+        })
+    }
+}
+
+function drawTurrets(){
+    turrets.forEach(t=>{
+        ctx.fillStyle="#555";
+        ctx.fillRect(t.x,t.y,t.w,t.h);
+        ctx.fillStyle="#ff3333";
+        ctx.fillRect(t.x+20,t.y+15,15,25);
+    })
+}
+
+function updateLasers(){
+    lasers.forEach((l,i)=>{
+        l.y +=9;
+        if(checkCollision(l,player)){
+            if(player.hurtCD <=0){
+                player.hp--;
+                player.hurtCD = 60;
+                if(player.hp <=0) gameOver=true;
             }
         }
-        function initGameObjects() {
-            platforms = [];
-            pineapples = [];
-            enemies = [];
-             platforms.push(new Platform(0, canvas.height - 20, canvas.width)); // 地面
-            platforms.push(new Platform(100, 300, 180));
-            platforms.push(new Platform(400, 250, 180));
-            platforms.push(new Platform(200, 180, 180));
-            platforms.push(new Platform(600, 320, 150));
-              pineapples.push(new Pineapple(150, 270));
-            pineapples.push(new Pineapple(450, 220));
-            pineapples.push(new Pineapple(250, 150));
-            pineapples.push(new Pineapple(650, 290));
-            pineapples.push(new Pineapple(350, 100));
-            pineapples.push(new Pineapple(700, 150));
-            enemies.push(new Enemy(300, canvas.height - 44));
-            enemies.push(new Enemy(500, 230));
-            enemies.push(new Enemy(100, 170));
+        if(l.y>canvas.height) lasers.splice(i,1);
+    })
+}
+function drawLasers(){
+    ctx.fillStyle="#ff2222";
+    lasers.forEach(l=>{
+        ctx.fillRect(l.x,l.y,l.w,l.h);
+    })
+}
+    
+function checkCollision(a,b){
+    let ah = b.duck ? b.h*0.55 : b.h;
+    let ay = b.duck ? b.y + b.h*0.45 : b.y;
+    return a.x < b.x+b.w && a.x+a.w > b.x && a.y < ay+ah && a.y+a.h > ay;
+}
+
+function update(){
+    if(gameOver) return;
+    score += 0.1;
+    if(player.hurtCD>0) player.hurtCD--;
+
+    player.duck = keys.duck && player.onGround;
+
+    if(keys.left && currentLane>0){
+        currentLane--;
+        keys.left=false;
+    }
+    if(keys.right && currentLane<2){
+        currentLane++;
+        keys.right=false;
+    }
+    player.x = lanes[currentLane];
+
+    if(keys.jump && player.onGround){
+        player.vy = player.jumpPower;
+        player.onGround = false;
+        keys.jump = false;
+    }
+    player.vy += player.gravity;
+    player.y += player.vy;
+
+    if(player.y >= 480){
+        player.y = 480;
+        player.vy = 0;
+        player.onGround = true;
+    }
+
+    spawnTurret();
+    turrets.forEach((t,idx)=>{
+        t.y += groundSpeed;
+        t.shootTimer++;
+  if(t.shootTimer>90){
+            lasers.push({
+                x:t.x+22,
+                y:t.y+50,
+                w:10,
+                h:35
+            })
+            t.shootTimer=0;
         }
-        function drawBackground() {
-             ctx.fillStyle = '#1d3557';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#f1faee';
-            for (let i = 0; i < 50; i++) {
-                const x = Math.random() * canvas.width;
-                const y = Math.random() * canvas.height / 2;
-                ctx.fillRect(x, y, 2, 2);
-            }
-            ctx.fillStyle = '#f1faee';
-            ctx.beginPath();
-            ctx.arc(700, 60, 30, 0, Math.PI * 2);
-            ctx.fill();
-          ctx.fillStyle = '#a8dadc';
-            ctx.beginPath();
-            ctx.arc(690, 50, 5, 0, Math.PI * 2);
-            ctx.arc(710, 70, 4, 0, Math.PI * 2);
-            ctx.arc(690, 70, 3, 0, Math.PI * 2);
-            ctx.fill();
-        }
-            function gameLoop() {
-            if (!gameRunning) return;
-           drawBackground();
-            platforms.forEach(platform => platform.draw());
-                pineapples.forEach(pineapple => {
-                pineapple.draw();
-                    if (!pineapple.collected &&
-                    player.x < pineapple.x + pineapple.width &&
-                    player.x + player.width > pineapple.x &&
-                    player.y < pineapple.y + pineapple.height &&
-                    player.y + player.height > pineapple.y) {
-                    
-                    pineapple.collected = true;
-                    score += 10;
-                    pineapplesCollected++;
-            if (pineapplesCollected % 5 === 0) {
-                        lives = Math.min(lives + 1, 5);
-                        updateLifeDisplay();
-                    }
-                    
-                    updateStats();
-                }
-            });
-             enemies.forEach(enemy => {
-                enemy.update();
-                enemy.draw();
-                  if (!invincible &&
-                    player.x < enemy.x + enemy.width &&
-                    player.x + player.width > enemy.x &&
-                    player.y < enemy.y + enemy.height &&
-                    player.y + player.height > enemy.y) {
-                    
-                    lives--;
-                    updateLifeDisplay();
-                       invincible = true;
-                    invincibleTimer = 120;
-                    
-                    if (lives <= 0) {
-                        endGame();
-                    }
-                }
-            });
-             playerVelocity += gravity;
-            player.y += playerVelocity;
-            if (player.y > canvas.height - player.height - 20) {
-                player.y = canvas.height - player.height - 20;
-                playerVelocity = 0;
-                isJumping = false;
-            }
-                let onPlatform = false;
-            platforms.forEach(platform => {
-                if (player.y + player.height <= platform.y &&
-                    player.y + player.height + playerVelocity >= platform.y &&
-                    player.x + player.width > platform.x &&
-                    player.x < platform.x + platform.width) {
-                    
-                    player.y = platform.y - player.height;
-                    playerVelocity = 0;
-                    isJumping = false;
-                    onPlatform = true;
-                }
-            });
-                player.draw();
-                if (invincible) {
-                invincibleTimer--;
-                if (invincibleTimer <= 0) {
-                    invincible = false;
-                }
-            }
-            score += 0.1;
-            updateStats();
-            requestAnimationFrame(gameLoop);
-        }
-        function jump() {
-            if (!isJumping) {
-                playerVelocity = -12;
-                isJumping = true;
-            }
-        }
-        function updateStats() {
-            document.getElementById('score').textContent = Math.floor(score);
-            document.getElementById('pineapples').textContent = pineapplesCollected;
-        }
-        function updateLifeDisplay() {
-            const livesContainer = document.getElementById('lives');
-            livesContainer.innerHTML = '';
-            for (let i = 0; i < lives; i++) {
-                const heart = document.createElement('span');
-                heart.className = 'pixel-heart';
-                livesContainer.appendChild(heart);
-            }
-        }
-        function startGame() {
-            if (!gameRunning) {
-                gameRunning = true;
-                score = 0;
-                lives = 3;
-                pineapplesCollected = 0;
-                player.x = 100;
-                player.y = canvas.height - 100;
-                playerVelocity = 0;
-                isJumping = false;
-                initGameObjects();
-                updateStats();
-                updateLifeDisplay();
-                gameLoop();
-            }
-        }
-        function endGame() {
-            gameRunning = false;
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = '#e76f51';
-            ctx.font = '28px "Press Start 2P"';
-            ctx.textAlign = 'center';
-            ctx.fillText('游戏结束!', canvas.width/2, canvas.height/2 - 30);
-            
-            ctx.fillStyle = '#ffd166';
-            ctx.font = '20px "Press Start 2P"';
-            ctx.fillText(`最终得分: ${Math.floor(score)}`, canvas.width/2, canvas.height/2 + 20);
-            
-            ctx.fillStyle = '#a7c957';
-            ctx.font = '16px "Press Start 2P"';
-            ctx.fillText('按"重新开始"按钮再玩一次', canvas.width/2, canvas.height/2 + 60);
-        }
-        function resetGame() {
-            gameRunning = false;
-            startGame();
-        }
-        function initEventListeners() {
-            document.getElementById('startBtn').addEventListener('click', startGame);
-            document.getElementById('jumpBtn').addEventListener('click', jump);
-            document.getElementById('resetBtn').addEventListener('click', resetGame);
-            
-            document.addEventListener('keydown', (e) => {
-                if (e.code === 'Space') {
-                    jump();
-                }
-                 function updateStats() {
-            document.getElementById('score').textContent = Math.floor(score);
-            document.getElementById('pineapples').textContent = pineapplesCollected;
-        }
-        function updateLifeDisplay() {
-            const livesContainer = document.getElementById('lives');
-            livesContainer.innerHTML = '';
-            for (let i = 0; i < lives; i++) {
-                const heart = document.createElement('span');
-                heart.className = 'pixel-heart';
-                livesContainer.appendChild(heart);
-            }
-        }
-        function startGame() {
-            if (!gameRunning) {
-                gameRunning = true;
-                score = 0;
-                lives = 3;
-                pineapplesCollected = 0;
-                player.x = 100;
-                player.y = canvas.height - 100;
-                playerVelocity = 0;
-                isJumping = false;
-                initGameObjects();
-                updateStats();
-                updateLifeDisplay();
-                gameLoop();
-            }
-        }
-       function endGame() {
-            gameRunning = false;
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = '#e76f51';
-            ctx.font = '28px "Press Start 2P"';
-            ctx.textAlign = 'center';
-            ctx.fillText('游戏结束!', canvas.width/2, canvas.height/2 - 30);
-            
-            ctx.fillStyle = '#ffd166';
-            ctx.font = '20px "Press Start 2P"';
-            ctx.fillText(`最终得分: ${Math.floor(score)}`, canvas.width/2, canvas.height/2 + 20);
-            
-            ctx.fillStyle = '#a7c957';
-            ctx.font = '16px "Press Start 2P"';
-            ctx.fillText('按"重新开始"按钮再玩一次', canvas.width/2, canvas.height/2 + 60);
-        }
-                
-function resetGame() {
-            gameRunning = false;
-            startGame();
-        }
-                function initEventListeners() {
-            document.getElementById('startBtn').addEventListener('click', startGame);
-            document.getElementById('jumpBtn').addEventListener('click', jump);
-            document.getElementById('resetBtn').addEventListener('click', resetGame);
-            
-            document.addEventListener('keydown', (e) => {
-                if (e.code === 'Space') {
-                    jump();
-                }
-                if (e.code === 'ArrowLeft') {
-                    player.x = Math.max(player.x - playerSpeed, 0);
-                }
-                if (e.code === 'ArrowRight') {
-                    player.x = Math.min(player.x + playerSpeed, canvas.width - player.width);
-                }
-                if (e.code === 'KeyP' && gameRunning) {
-                    invincible = true;
-                    invincibleTimer = 300; // 5秒无敌
-                }
-            });
-            document.getElementById('egg').addEventListener('click', () => {
-                const eggMessage = document.getElementById('eggMessage');
-                eggMessage.style.display = eggMessage.style.display === 'block' ? 'none' : 'block';
-            });
-        }
-        window.onload = function() {
-            initGameObjects();
-            initEventListeners();
-            drawBackground();
-            player.draw();
-            platforms.forEach(p => p.draw());
-            pineapples.forEach(p => p.draw());
-            enemies.forEach(e => e.draw());
-            
-            updateLifeDisplay();
-        };
-    </script>
+        if(t.y>canvas.height) turrets.splice(idx,1);
+    })
+    updateLasers();
+}
+
+function drawUI(){
+    ctx.fillStyle="#fff";
+    ctx.font="18px Arial";
+    ctx.fillText("生命：",10,28);
+    ctx.fillStyle="#ff4444";
+    for(let i=0;i<player.hp;i++){
+        ctx.fillRect(65+i*22,12,18,16);
+    }
+    ctx.fillStyle="#fff";
+    ctx.fillText(`分数：${Math.floor(score)}`,220,28);
+
+    if(gameOver){
+        ctx.fillStyle="rgba(0,0,0,0.6)";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle="#fff";
+        ctx.font="32px Arial";
+        ctx.textAlign="center";
+        ctx.fillText("游戏结束",canvas.width/2,260);
+        ctx.fillText(`最终分数:${Math.floor(score)}`,canvas.width/2,310);
+        ctx.font="18px Arial";
+        ctx.fillText("刷新页面重新开始",canvas.width/2,360);
+        ctx.textAlign="left";
+    }
+}
+
+function loop(){
+    update();
+    drawBackground();
+    drawTurrets();
+    drawLasers();
+    drawPlayer();
+    drawUI();
+    requestAnimationFrame(loop);
+}
+
+document.addEventListener('keydown',e=>{
+    if(e.key === "ArrowLeft") keys.left=true;
+    if(e.key === "ArrowRight") keys.right=true;
+    if(e.key === "ArrowUp") keys.jump=true;
+    if(e.key === "ArrowDown") keys.duck=true;
+})
+document.addEventListener('keyup',e=>{
+    if(e.key === "ArrowDown") keys.duck=false;
+})
+
+let touchStartX=0;
+canvas.addEventListener('touchstart',e=>{
+    touchStartX = e.touches[0].clientX;
+});
+canvas.addEventListener('touchend',e=>{
+    const endX = e.changedTouches[0].clientX;
+    const dx = endX-touchStartX;
+    if(Math.abs(dx)<25){
+        keys.jump=true; 
+    }else if(dx < -30){
+        keys.left=true;
+    }else if(dx>30){
+        keys.right=true;
+    }
+})
+canvas.addEventListener('touchmove',e=>{
+    e.preventDefault();
+    if(e.touches[0].clientY>520){
+        keys.duck=true;
+    }else{
+        keys.duck=false;
+    }
+})
+
+loop();
+</script>
 </body>
 </html>
